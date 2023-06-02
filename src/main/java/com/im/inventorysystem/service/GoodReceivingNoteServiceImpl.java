@@ -50,12 +50,12 @@ public class GoodReceivingNoteServiceImpl implements GoodReceivingNoteService {
         savedGoodReceivingNotes.forEach(goodReceivingNote -> {
             GRNItemDto grnItemDto = new GRNItemDto();
             ModelMapper mapper = new ModelMapper();
-            mapper.addMappings(new PropertyMap<GRNItemDto, GoodReceivingNote>() {
+            mapper.addMappings(new PropertyMap<GoodReceivingNote, GRNItemDto>() {
                 @Override
                 protected void configure() {
                 }
             });
-            mapper.map(grnItemDto, goodReceivingNote);
+            mapper.map(goodReceivingNote, grnItemDto);
             grn.getItemRequests().add(grnItemDto);
             grn.setPoNo(goodReceivingNote.getPoNo());
             grn.setSupplierName(goodReceivingNote.getSupplierName());
