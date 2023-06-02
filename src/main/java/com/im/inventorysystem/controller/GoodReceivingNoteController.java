@@ -1,28 +1,27 @@
 package com.im.inventorysystem.controller;
 
-import com.im.inventorysystem.model.GoodReceivingNote;
+import com.im.inventorysystem.dto.GRNDto;
+import com.im.inventorysystem.dto.GRNDtos;
 import com.im.inventorysystem.service.GoodReceivingNoteService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-//give the response body and the controller at the same time
 @RestController
-@RequestMapping("/goodReceivingNote")
 @CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
 public class GoodReceivingNoteController {
-    @Autowired
-    private GoodReceivingNoteService goodReceivingNoteService;
+    private final GoodReceivingNoteService goodReceivingNoteService;
 
-    @PostMapping("/add")
-    public String add(@RequestBody GoodReceivingNote goodReceivingNote) {
-        goodReceivingNoteService.saveGoodReceivingNote(goodReceivingNote);
-        return "New good receiving note is added";
+    public GoodReceivingNoteController(GoodReceivingNoteService goodReceivingNoteService) {
+        this.goodReceivingNoteService = goodReceivingNoteService;
     }
 
-    @GetMapping("/getAll")
-    public List<GoodReceivingNote> getAllGoodReceivingNotes() {
-        return goodReceivingNoteService.getAllGoodReceivingNotes();
+    @PostMapping("/grn")
+    public ResponseEntity<?> add(@RequestBody GRNDto grnDto) {
+        return ResponseEntity.ok(goodReceivingNoteService.saveGoodReceivingNote(grnDto));
+    }
+
+    @GetMapping("/grns")
+    public ResponseEntity<GRNDtos> getAllGoodReceivingNotes() {
+        return ResponseEntity.ok(goodReceivingNoteService.getAllGoodReceivingNotes());
     }
 }
